@@ -1,96 +1,122 @@
-// script.js — interactions : shape toggle, lightbox, loading handling, download link
-document.addEventListener('DOMContentLoaded', () => {
-  const photo = document.getElementById('mainPhoto');
-  const btnZoom = document.getElementById('btnZoom');
-  const btnShape = document.getElementById('btnShape');
-  const btnDownload = document.getElementById('btnDownload');
-  const skeleton = document.getElementById('photoSkeleton');
+:root{
+  /* Palette basée sur #51624F */
+  --accent: #51624F;        /* couleur principale demandée */
+  --accent-2: #7b8a78;      /* variante claire */
+  --accent-3: #374233;      /* foncé pour textes / titres */
+  --muted: #70776a;
+  --card: #ffffff;
+  --glass: rgba(255,255,255,0.72);
+  --radius: 14px;
+  --shadow: 0 18px 50px rgba(81,98,79,0.06);
+  --max-width:1100px;
+  --gap:18px;
+}
 
-  const lightbox = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-  const lbClose = document.getElementById('lbClose');
-  const lbPrev = document.getElementById('lbPrev');
-  const lbNext = document.getElementById('lbNext');
-  const lbDownload = document.getElementById('lbDownload');
+/* Reset & base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f6f7f5 0%, #fbfcfb 100%);
+  color:var(--accent-3);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  padding:20px;
+}
 
-  // Show skeleton while image is loading
-  function showSkeleton() { skeleton.style.display = 'block'; }
-  function hideSkeleton() { skeleton.style.display = 'none'; }
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  background:transparent;
+  padding:12px 6%;
+}
+nav h1{ margin:0; color:var(--accent); font-size:1.05rem; font-weight:800 }
+nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:12px }
+nav a{ text-decoration:none; color:var(--muted); padding:8px 10px; border-radius:8px; font-weight:700 }
+nav a:hover{ color:var(--accent-3); background:rgba(81,98,79,0.04) }
 
-  // Start with skeleton until image loaded
-  if (!photo.complete) showSkeleton();
-  photo.addEventListener('load', () => {
-    hideSkeleton();
-  });
-  photo.addEventListener('error', () => {
-    hideSkeleton();
-    // show textual hint if image not found
-    const parent = photo.parentElement;
-    const notice = document.createElement('div');
-    notice.className = 'img-error';
-    notice.textContent = 'Image introuvable — vérifie le chemin/nom dans images/';
-    notice.style.color = '#991b1b';
-    notice.style.fontWeight = '700';
-    notice.style.padding = '8px';
-    parent.appendChild(notice);
-    photo.style.display = 'none';
-  });
+/* HERO */
+.hero{ display:flex; justify-content:center; padding:18px 6% 6px }
+.profile-figure{
+  display:flex;
+  gap:var(--gap);
+  align-items:center;
+  background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+  padding:18px;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  max-width:var(--max-width);
+  width:100%;
+  border:1px solid rgba(81,98,79,0.04);
+}
 
-  // Restore shape preference
-  try {
-    const saved = localStorage.getItem('photoRound');
-    if (saved === '1') photo.classList.add('round');
-  } catch (e) { /* ignore */ }
+/* Photo */
+.profile-photo{
+  width:260px;
+  height:340px;
+  object-fit:cover;
+  border-radius:12px;
+  box-shadow:0 14px 40px rgba(2,6,23,0.06);
+  cursor:zoom-in;
+  border:6px solid rgba(255,255,255,0.62);
+  transition:transform .28s ease, box-shadow .28s ease, border-radius .28s;
+  display:block;
+}
+.profile-photo.round{
+  border-radius:999px;
+  width:300px;
+  height:300px;
+  outline: 8px solid rgba(123,138,120,0.12);
+}
 
-  // Toggle round / square
-  btnShape.addEventListener('click', () => {
-    const isRound = photo.classList.toggle('round');
-    btnShape.textContent = isRound ? 'Carré' : 'Rond';
-    try { localStorage.setItem('photoRound', isRound ? '1' : '0'); } catch {}
-  });
+/* Profile meta / actions */
+.profile-meta{ flex:1; min-width:220px }
+.profile-meta h2{ margin:0 0 8px; color:var(--accent); font-size:1.25rem }
+.lead{ margin:0 0 12px; color:var(--muted) }
+.profile-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px }
+.btn{
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  color:#fff; border:0; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:800;
+  box-shadow:0 10px 30px rgba(81,98,79,0.08); text-decoration:none;
+}
+.btn.outline{ background:transparent; color:var(--accent-3); border:1px solid rgba(81,98,79,0.06); box-shadow:none }
+.btn.download{ background:linear-gradient(90deg,var(--accent-2),var(--accent)); color:#fff }
 
-  // Lightbox: open and set image
-  function openLightbox(src, alt, downloadHref) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lbDownload.href = downloadHref || src;
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.documentElement.style.overflow = 'hidden';
-  }
+/* MAIN CONTENT CARDS */
+main{ padding:22px 6% }
+.card{
+  background:var(--card);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 10px 30px rgba(2,6,23,0.04);
+  border:1px solid rgba(81,98,79,0.03);
+}
+.card h2{ margin-top:0; color:var(--accent) }
+.section-group h3{ margin-bottom:6px; color:var(--accent-3) }
+.section-group p, .section-group li{ color:var(--muted) }
 
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-    // free memory on mobile
-    lbImg.src = '';
-  }
+/* Lightbox */
+.lightbox{
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background:rgba(2,6,23,0.72); z-index:1200; padding:24px;
+}
+.lightbox.open{ display:flex }
+.lightbox-image{
+  max-width:92%; max-height:88vh; border-radius:12px; box-shadow:0 28px 80px rgba(2,6,23,0.6);
+}
+.lightbox-close{ position:fixed; top:22px; right:24px; z-index:1210; background:transparent; color:#fff; border:0; font-size:22px; cursor:pointer; padding:8px }
+.lightbox-download{ position:fixed; right:18px; bottom:18px; z-index:1210; background:var(--accent); color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none }
 
-  // open by clicking image or zoom button
-  photo.addEventListener('click', () => openLightbox(photo.src, photo.alt, btnDownload.href));
-  btnZoom.addEventListener('click', () => openLightbox(photo.src, photo.alt, btnDownload.href));
-
-  // lightbox controls
-  lbClose.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  // Download buttons: ensure href points to image
-  btnDownload.href = photo.src;
-  lbDownload.href = photo.src;
-
-  // Optional: preload a larger image for the lightbox (if you have one)
-  // Example assumes images/profile-1600.jpg exists
-  const large = 'images/profile-1600.jpg';
-  const imgLarge = new Image();
-  imgLarge.src = large;
-  imgLarge.onload = () => {
-    // if loaded successfully, use it for lightbox & download
-    // but only if the file exists on the server
-    btnDownload.href = large;
-    lbDownload.href = large;
-  };
-});
+/* Responsive adjustments */
+@media (max-width:920px){
+  .profile-figure{ flex-direction:column; text-align:center }
+  .profile-photo{ width:220px; height:280px }
+  .profile-photo.round{ width:200px; height:200px }
+  nav ul{ display:none } /* keep simple on small screens */
+}
