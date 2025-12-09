@@ -1,121 +1,240 @@
-// script.js — navigation, image interactions, reveal on scroll, contact simulation
-document.addEventListener('DOMContentLoaded', () => {
-  // Navigation smooth + mobile toggle
-  const links = document.querySelectorAll('[data-scroll]');
-  const navToggle = document.querySelector('.nav-toggle');
-  const header = document.querySelector('.site-header');
-  const nav = document.querySelector('.main-nav');
+/* style.css - Colle ce fichier à la racine (style.css) */
 
-  if (navToggle) {
-    navToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      const expanded = nav.classList.contains('open');
-      navToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    });
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --accent: #2b6ef6; /* bleu principal */
+  --accent-2: #ffd24a; /* jaune accent (pour maillot) */
+  --muted: #6b7280;
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(16,24,40,0.06);
+  --max-width: 1100px;
+  --glass: rgba(255,255,255,0.6);
+}
+
+*{box-sizing: border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+  color:#111827;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+}
+
+/* Container */
+.container{
+  width:90%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:28px 0;
+}
+
+/* Header */
+.site-header{
+  background: white;
+  border-bottom:1px solid rgba(15,23,42,0.04);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+/* Brand */
+.brand{
+  display:inline-block;
+  font-weight:700;
+  color:var(--accent);
+  text-decoration:none;
+  font-size:1.05rem;
+}
+
+/* Nav */
+.main-nav ul{
+  list-style:none;
+  display:flex;
+  gap:8px;
+  margin:0;
+  padding:0;
+}
+.main-nav a{
+  display:inline-block;
+  padding:10px 12px;
+  color:var(--muted);
+  text-decoration:none;
+  border-radius:8px;
+  transition:all .18s ease;
+}
+.main-nav a:hover, .main-nav a.active{
+  background: linear-gradient(90deg, rgba(43,110,246,0.08), rgba(255,210,74,0.06));
+  color:var(--accent);
+  transform:translateY(-2px);
+}
+
+/* Mobile nav toggle */
+.nav-toggle{
+  display:none;
+  border:0;
+  background:transparent;
+  padding:8px;
+  cursor:pointer;
+}
+.hamburger{
+  width:22px;
+  height:2px;
+  background:#111827;
+  position:relative;
+  display:block;
+}
+.hamburger::before, .hamburger::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:22px;
+  height:2px;
+  background:#111827;
+  transition:transform .18s;
+}
+.hamburger::before{top:-7px}
+.hamburger::after{top:7px}
+
+/* Pages */
+.pages{min-height:calc(100vh - 120px)}
+.page{display:none; padding:40px 0}
+.page.active{display:block; animation:fadeUp .36s ease both}
+
+/* Hero */
+.hero{
+  display:flex;
+  gap:28px;
+  align-items:center;
+  padding:40px 0;
+}
+.profile-figure{margin:0}
+.profile-photo{
+  width:200px;
+  height:auto;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow:var(--shadow);
+  border:3px solid rgba(255,255,255,0.9);
+  display:block;
+}
+.hero-text h1{
+  margin:0 0 8px;
+  font-size:1.9rem;
+  color: #0f172a;
+}
+.hero-text p{margin:0 0 18px;color:var(--muted)}
+.hero-ctas{display:flex;gap:12px}
+
+/* Buttons */
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  border:0;
+  font-weight:600;
+}
+.btn.primary{
+  background:var(--accent);
+  color:white;
+  box-shadow:0 8px 20px rgba(43,110,246,0.12);
+}
+.btn.ghost{
+  background:transparent;
+  border:1px solid rgba(15,23,42,0.06);
+  color:var(--accent);
+}
+
+/* Page inner layout */
+.page-inner{padding:18px 0}
+.back-home{
+  background:transparent;
+  border:0;
+  color:var(--muted);
+  margin-bottom:18px;
+  cursor:pointer;
+}
+
+/* Cards */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+  margin-bottom:18px;
+  border:1px solid rgba(15,23,42,0.03);
+}
+.form-card input, .form-card textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(15,23,42,0.06);
+  margin-top:8px;
+  margin-bottom:12px;
+  font-size:0.95rem;
+}
+
+/* Grids */
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:16px;
+}
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:16px;
+}
+
+/* Footer */
+.site-footer{padding:22px 0;color:var(--muted);text-align:center}
+
+/* Responsive */
+@media (max-width:900px){
+  .grid-2{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .hero{flex-direction:column; text-align:center}
+  .hero-text{max-width:700px}
+}
+
+/* Small screens: mobile nav */
+@media (max-width:780px){
+  .main-nav{
+    position:fixed;
+    inset:60px 16px auto 16px;
+    right:16px;
+    left:16px;
+    background:var(--card);
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 16px 40px rgba(2,6,23,0.12);
+    transform:scaleY(0);
+    transform-origin:top center;
+    transition:transform .2s ease;
+    z-index:60;
   }
+  .main-nav.show{transform:scaleY(1)}
+  .main-nav ul{flex-direction:column; gap:6px}
+  .nav-toggle{display:block}
+}
 
-  links.forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      if (!href || !href.startsWith('#')) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      // close mobile nav
-      nav.classList.remove('open');
-      const top = target.getBoundingClientRect().top + window.pageYOffset - (header.offsetHeight || 0) - 8;
-      window.scrollTo({ top, behavior: 'smooth' });
-    });
-  });
+/* Small animations */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
 
-  // Reveal on scroll for elements with .reveal
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && reveals.length) {
-    const obs = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(r => obs.observe(r));
-  } else {
-    reveals.forEach(r => r.classList.add('is-visible'));
-  }
-
-  // Image interactions: toggle round, lightbox, download
-  const photo = document.getElementById('profile-photo');
-  const toggle = document.getElementById('toggle-shape');
-  const openBtn = document.getElementById('open-lightbox');
-  const downloadBtn = document.getElementById('download-photo');
-
-  // restore preference
-  try {
-    const saved = localStorage.getItem('profileRound');
-    if (saved === '1') photo.classList.add('round');
-  } catch {}
-
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const isRound = photo.classList.toggle('round');
-      try { localStorage.setItem('profileRound', isRound ? '1' : '0'); } catch {}
-    });
-  }
-
-  // Lightbox
-  const lightbox = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lb-img');
-  const lbClose = document.getElementById('lb-close');
-  const lbDownload = document.getElementById('lb-download');
-
-  function openLightbox(src) {
-    lbImg.src = src || photo.src;
-    lbDownload.href = src || downloadBtn.href || photo.src;
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.documentElement.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-    lbImg.src = '';
-  }
-
-  photo && photo.addEventListener('click', () => openLightbox());
-  openBtn && openBtn.addEventListener('click', () => openLightbox());
-  lbClose && lbClose.addEventListener('click', closeLightbox);
-  lightbox && lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-
-  // set download links to photo
-  downloadBtn && (downloadBtn.href = photo.src);
-  lbDownload && (lbDownload.href = photo.src);
-
-  // preload large version if present (images/profile-1600.jpg)
-  const large = 'images/profile-1600.jpg';
-  const preload = new Image();
-  preload.src = large;
-  preload.onload = () => {
-    downloadBtn.href = large;
-    lbDownload.href = large;
-  };
-
-  // Contact form simulated
-  const form = document.getElementById('contact-form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-      if (!email || !message) {
-        alert('Merci de renseigner ton email et ton message.');
-        return;
-      }
-      alert('Message envoyé — je te répondrai bientôt ! (simulation)');
-      form.reset();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-});
+/* Utilities */
+.text-center{text-align:center}
+.muted{color:var(--muted)}
