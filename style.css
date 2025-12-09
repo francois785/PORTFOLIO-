@@ -1,217 +1,96 @@
-:root{
-  --bg: #f5f9ff;
-  --card: #ffffff;
-  --accent: #0b6bff;
-  --accent-2: #36b3ff;
-  --muted: #586170;
-  --glass: rgba(255,255,255,0.7);
-  --radius: 16px;
-  --shadow: 0 18px 50px rgba(11,75,150,0.08);
-}
+// script.js — interactions : shape toggle, lightbox, loading handling, download link
+document.addEventListener('DOMContentLoaded', () => {
+  const photo = document.getElementById('mainPhoto');
+  const btnZoom = document.getElementById('btnZoom');
+  const btnShape = document.getElementById('btnShape');
+  const btnDownload = document.getElementById('btnDownload');
+  const skeleton = document.getElementById('photoSkeleton');
 
-/* Reset & base */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
-  color:#0b2138;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.45;
-}
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+  const lbDownload = document.getElementById('lbDownload');
 
-/* Page layout */
-.page{
-  display:flex;
-  min-height:100vh;
-  align-items:center;
-  justify-content:center;
-  padding:48px 20px;
-}
+  // Show skeleton while image is loading
+  function showSkeleton() { skeleton.style.display = 'block'; }
+  function hideSkeleton() { skeleton.style.display = 'none'; }
 
-/* Card */
-.photo-card{
-  display:grid;
-  grid-template-columns: 360px 1fr;
-  gap:28px;
-  align-items:start;
-  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.95));
-  border-radius:20px;
-  padding:28px;
-  box-shadow:var(--shadow);
-  max-width:1100px;
-  width:100%;
-  border:1px solid rgba(11,75,150,0.04);
-}
+  // Start with skeleton until image loaded
+  if (!photo.complete) showSkeleton();
+  photo.addEventListener('load', () => {
+    hideSkeleton();
+  });
+  photo.addEventListener('error', () => {
+    hideSkeleton();
+    // show textual hint if image not found
+    const parent = photo.parentElement;
+    const notice = document.createElement('div');
+    notice.className = 'img-error';
+    notice.textContent = 'Image introuvable — vérifie le chemin/nom dans images/';
+    notice.style.color = '#991b1b';
+    notice.style.fontWeight = '700';
+    notice.style.padding = '8px';
+    parent.appendChild(notice);
+    photo.style.display = 'none';
+  });
 
-/* Left column: photo frame */
-.photo-frame{
-  position:relative;
-  width:100%;
-  max-width:360px;
-  border-radius:16px;
-  overflow:visible;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+  // Restore shape preference
+  try {
+    const saved = localStorage.getItem('photoRound');
+    if (saved === '1') photo.classList.add('round');
+  } catch (e) { /* ignore */ }
 
-/* Skeleton while loading */
-.skeleton{
-  position:absolute;
-  inset:12px;
-  border-radius:12px;
-  background:linear-gradient(90deg, rgba(11,107,255,0.04), rgba(54,179,255,0.02));
-  filter:blur(10px);
-  opacity:0.6;
-  display:none; /* shown by JS while loading */
-  z-index:1;
-}
+  // Toggle round / square
+  btnShape.addEventListener('click', () => {
+    const isRound = photo.classList.toggle('round');
+    btnShape.textContent = isRound ? 'Carré' : 'Rond';
+    try { localStorage.setItem('photoRound', isRound ? '1' : '0'); } catch {}
+  });
 
-/* Photo */
-.photo{
-  width:320px;
-  height:420px;
-  object-fit:cover;
-  border-radius:14px;
-  transition:transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
-  box-shadow: 0 14px 40px rgba(2,6,23,0.08);
-  cursor:zoom-in;
-  border:6px solid rgba(255,255,255,0.55);
-  background: linear-gradient(180deg,#ffffff 0%, rgba(245,249,255,1) 100%);
-  display:block;
-  z-index:2;
-}
+  // Lightbox: open and set image
+  function openLightbox(src, alt, downloadHref) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lbDownload.href = downloadHref || src;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+  }
 
-/* Rounded variant (toggled) */
-.photo.round{
-  border-radius:999px;
-  width:300px;
-  height:300px;
-  outline: 8px solid rgba(54,179,255,0.12);
-  cursor:zoom-in;
-}
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+    // free memory on mobile
+    lbImg.src = '';
+  }
 
-/* Hover */
-.photo:hover{ transform:translateY(-6px) scale(1.02) }
+  // open by clicking image or zoom button
+  photo.addEventListener('click', () => openLightbox(photo.src, photo.alt, btnDownload.href));
+  btnZoom.addEventListener('click', () => openLightbox(photo.src, photo.alt, btnDownload.href));
 
-/* Overlay controls on the photo (top-right compact) */
-.photo-overlay{
-  position:absolute;
-  right:12px;
-  top:12px;
-  display:flex;
-  gap:8px;
-  z-index:3;
-  opacity:0;
-  transform:translateY(-6px);
-  transition:all .22s ease;
-}
-.photo-frame:hover .photo-overlay{ opacity:1; transform:translateY(0) }
+  // lightbox controls
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
 
-.icon-btn{
-  background:linear-gradient(180deg,var(--card), #f6fbff);
-  border:1px solid rgba(11,75,150,0.06);
-  color:var(--accent-3, #093058);
-  padding:8px 10px;
-  border-radius:10px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(11,75,150,0.06);
-  text-decoration:none;
-  font-size:0.88rem;
-}
+  // Download buttons: ensure href points to image
+  btnDownload.href = photo.src;
+  lbDownload.href = photo.src;
 
-/* Right column */
-.photo-right h1{ margin:0 0 8px; font-size:1.55rem; color:var(--accent); }
-.lead{ margin:0 0 12px; color:var(--muted); }
-.badges{ list-style:none; padding:0; display:flex; gap:8px; margin:10px 0 18px; }
-.badge{
-  background: linear-gradient(90deg,var(--accent-2),var(--accent));
-  color:white;
-  padding:6px 10px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:0.88rem;
-  box-shadow:0 8px 24px rgba(11,107,255,0.08);
-}
-.note{ margin-top:14px; font-size:0.9rem; color:var(--muted); }
-
-/* Lightbox */
-.lightbox{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(2,6,23,0.7);
-  z-index:1200;
-  padding:28px;
-}
-.lightbox.open{ display:flex }
-.lightbox-image{
-  max-width:92%;
-  max-height:88vh;
-  border-radius:12px;
-  box-shadow: 0 28px 80px rgba(2,6,23,0.6);
-  transform-origin:center;
-  transition:transform .28s ease;
-}
-.lightbox-close{
-  position:fixed;
-  top:22px;
-  right:24px;
-  z-index:1210;
-  background:transparent;
-  color:#fff;
-  border:0;
-  font-size:22px;
-  cursor:pointer;
-  padding:8px;
-}
-.lightbox-nav{
-  position:fixed;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:1210;
-  background:rgba(255,255,255,0.06);
-  color:#fff;
-  border:0;
-  font-size:28px;
-  width:48px;
-  height:64px;
-  border-radius:8px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.lightbox-nav.left{ left:18px }
-.lightbox-nav.right{ right:18px }
-
-.lightbox-download{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:1210;
-  background:var(--accent);
-  color:#fff;
-  padding:10px 14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  box-shadow:0 10px 30px rgba(11,107,255,0.12);
-}
-
-/* Responsive */
-@media (max-width:920px){
-  .photo-card{ grid-template-columns: 1fr; gap:18px; padding:20px }
-  .photo{ width:280px; height:360px }
-  .photo.round{ width:220px; height:220px }
-  .photo-frame{ justify-content:center }
-}
-/* Small utilities */
-.text-center{text-align:center}
-.muted{color:var(--muted)}
+  // Optional: preload a larger image for the lightbox (if you have one)
+  // Example assumes images/profile-1600.jpg exists
+  const large = 'images/profile-1600.jpg';
+  const imgLarge = new Image();
+  imgLarge.src = large;
+  imgLarge.onload = () => {
+    // if loaded successfully, use it for lightbox & download
+    // but only if the file exists on the server
+    btnDownload.href = large;
+    lbDownload.href = large;
+  };
+});
