@@ -1,220 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio François Naissant</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — François Naissant</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <h1>François Naissant</h1>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">François Naissant</a>
+
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span class="bar" aria-hidden="true"></span>
+      </button>
+
+      <nav class="main-nav" aria-label="Navigation principale">
         <ul>
-            <li><a href="#presentation">Présentation & Parcours</a></li>
-            <li><a href="#sport-valeurs">Le Sport & Mes valeurs</a></li>
-            <li><a href="#musique">Ma passion pour le handball</a></li>
-            <li><a href="#projets-vision">Projets & Vision</a></li>
-            <li><a href="#contact">Contact</a></li>
+          <li><a href="#presentation" data-scroll>Présentation</a></li>
+          <li><a href="#sport" data-scroll>Sport</a></li>
+          <li><a href="#musique" data-scroll>Musique</a></li>
+          <li><a href="#projets" data-scroll>Projets</a></li>
+          <li><a href="#contact" data-scroll>Contact</a></li>
         </ul>
-    </nav>
-
-    <!-- Header / Hero with integrated profile photo -->
-    <header>
-        <div class="hero">
-            <figure class="profile-figure">
-                <!-- Simple <img> to avoid fallback issues: place image in images/ with exact name -->
-                <img
-                  id="mainPhoto"
-                  class="profile-photo"
-                  src="images/profile-800.jpg"
-                  alt="Portrait en maillot de handball, bras croisés, souriant"
-                  loading="lazy"
-                  width="800" height="1040"
-                />
-                <figcaption class="profile-meta">
-                  <h2>Bienvenue sur mon portfolio !</h2>
-                  <p class="lead">
-                    Ici, tu découvriras mon univers, mes ambitions et ce qui me motive chaque jour. Prêt pour la visite ?
-                    Étudiant en licence commercialisation de produits et services sportifs — Alternant chez Energie Forme Vernouillet.
-                  </p>
-
-                  <div class="profile-actions">
-                    <button id="toggle-shape" class="btn">Rond / Carré</button>
-                    <button id="open-lightbox" class="btn outline">Agrandir</button>
-                    <a id="download-btn" class="btn download" href="images/profile-800.jpg" download="portrait.jpg">Télécharger</a>
-                  </div>
-                </figcaption>
-            </figure>
-        </div>
-    </header>
-
-    <main>
-        <!-- Grande Partie 1 -->
-        <section id="presentation" class="card">
-            <h2>Présentation & Parcours</h2>
-            <div class="section-group">
-                <h3>À propos de moi</h3>
-                <p>
-                    Hello, je m'appelle François Naissant, j'ai 20 ans et j'étudie à l'Ileps (Cergy) en licence commercialisation de produits et services sportifs.<br>
-                    En alternance chez Energie Forme Vernouillet comme commercial, j’explore au quotidien le monde du sport sous toutes ses formes.<br>
-                    Depuis tout petit, le sport a forgé mon caractère : rigueur, esprit d’équipe, dépassement de soi.<br>
-                    Aujourd’hui, je mets ces qualités au service de mes études et de mon entreprise, avec la conviction que l’humain est au cœur de toute réussite.<br>
-                    Cela fait 10 ans que je pratique le handball, et je souhaite vous faire partager, ce qui anime ma vie.
-                </p>
-            </div>
-            <div class="section-group">
-                <h3>Mon parcours sportif</h3>
-                <p>
-                    J’ai démarré le handball à 10 ans et depuis, le terrain est devenu mon deuxième foyer.<br>
-                    Chaque saison, chaque match m’a permis de grandir, d’apprendre à gérer la pression, la victoire comme la défaite.<br>
-                    <b>En 2023, j’ai remporté le championnat régional U18 : un moment de joie et d’émotion intense avec mon équipe, preuve du travail et de la cohésion !</b><br>
-                    Le handball m’a aussi offert des amitiés solides et des souvenirs impérissables.
-                </p>
-            </div>
-            <div class="section-group">
-                <h3>Anecdotes personnelles</h3>
-                <ul>
-                    <li>
-                        <b>Champion régional U18 en 2023</b> : mon plus grand souvenir sportif, obtenir ce titre grâce à l’effort collectif et à la détermination !
-                    </li>
-                    <li>
-                        Un championnat qui a été pleins de rebondissements que ce soit sur le plan collectif ou individuel et qui m'a permis de me forger un mental en acier.
-                      Le début de saison avait été compliqué pour moi à cause d'une blessure et à mon retour il a été difficile de se faire une place au sein du groupe. Néanmoins, grâce à ma perséverence j'ai pu gagner ma place et la garder toute la saison faisant de moi un joueur incontournable pour le coach.
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Grande Partie 2 -->
-        <section id="sport-valeurs" class="card">
-            <h2>Le Sport & Mes valeurs</h2>
-            <div class="section-group">
-                <h3>Pourquoi le sport ?</h3>
-                <p>
-                    Le sport, c’est plus que de la performance : c’est un vecteur d’épanouissement, de respect et d’intégration.<br>
-                    Il m’a appris à croire en moi, à relever les défis et à cultiver la discipline dans tous les domaines de ma vie.
-                </p>
-            </div>
-            <div class="section-group">
-                <h3>Mes passions</h3>
-                <ul>
-                    <li>
-                        <span class="icon">&#9917;</span>
-                        Handball : 10 ans de passion, de compétition et d’équipe ! Le handball m’a appris à toujours relever les défis, à rester humble dans la victoire et combatif dans la difficulté.
-                    </li>
-                    <li>
-                        <span class="icon">&#128101;</span>
-                        Les amis : partager des moments uniques, c’est irremplaçable !<br>
-                        Les amis, eux, sont la famille que je me suis choisie pour partager mes joies et mes ambitions.
-                    </li>
-                </ul>
-            </div>
-            <div class="section-group">
-                <h3>Mes valeurs</h3>
-                <ul>
-                    <li>Respect</li>
-                    <li>Engagement</li>
-                    <li>Tolérance</li>
-                    <li>Esprit d’équipe</li>
-                    <li>Persévérance</li>
-                </ul>
-                <p>
-                    Au cœur du sport et de la vie, ce sont elles qui me guident chaque jour !
-                </p>
-            </div>
-            <div class="section-group">
-                <h3>Ce qui me motive au quotidien</h3>
-                <p>
-                    Je me lève chaque matin avec l’envie de progresser, de repousser mes propres limites, et d’aider les autres à faire de même.<br>
-                    Pour moi, la réussite ne se mesure pas seulement aux résultats, mais à l’impact positif que l’on crée autour de soi.
-                </p>
-            </div>
-        </section>
-
-        <!-- Partie handball - joueur, coach, arbitre & valeurs -->
-        <section id="handball" class="card">
-            <h2>Ma passion pour le handball</h2>
-            <div class="section-group">
-                <h3>Handballeur, coach, arbitre : explorer toutes les facettes</h3>
-                <p>
-                    Aujourd’hui, je découvre le handball sous tous ses angles. Depuis plus de dix ans, le handball occupe une place essentielle dans ma vie.
-                    Ce sport m’a permis de développer non seulement des compétences techniques, mais aussi une véritable passion pour le collectif, l’engagement et la transmission.
-                </p>
-                <p>
-                  Au fil des années, j’ai eu la chance d’en explorer toutes les dimensions : joueur depuis une décennie, coach depuis trois ans et arbitre depuis deux ans.
-                </p>
-                <p>
-                  Sur le terrain, j’apprécie l’intensité du jeu et l’esprit d’équipe ; en tant qu’entraîneur, j’aime accompagner les joueurs dans leur progression ; et comme arbitre, j’ai appris à faire preuve de rigueur, d’objectivité et de maîtrise de soi.
-                </p>
-            </div>
-            <div class="section-group">
-                <h3>Des valeurs pour le sport et la vie</h3>
-                <p>
-                    Le handball m’a appris le respect, l’écoute, l’esprit d’équipe et la tolérance. 
-                    En tant que joueur, coach et arbitre, j’incarne ces valeurs chaque jour, sur le terrain et en dehors.   
-                </p>
-            </div>
-        </section>
-
-        <!-- Grande Partie 3 -->
-        <section id="projets-vision" class="card">
-            <h2>Projets & Vision</h2>
-            <div class="section-group">
-                <h3>Mes projets futurs</h3>
-                <div class="projets-list">
-                    <div class="projet-item">
-                        <h4>Arbitre de handball professionnel</h4>
-                        <p>
-                            Mon rêve : arbitrer au plus haut niveau ! La rigueur, la passion du jeu, et l’envie de contribuer au sport autrement.<br>
-                            Dans les années à venir, je souhaite faire évoluer ma passion en métier.
-                        </p>
-                    </div>
-                    <div class="projet-item">
-                        <h4>Directeur de structure sportive</h4>
-                        <p>
-                            Si l’arbitrage ne marche pas, je veux mener une équipe vers l'excellence sportive, partager mes valeurs et mon engagement.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="section-group">
-                <h3>Vision pour l’avenir</h3>
-                <p>
-                    Je rêve d’un monde où chacun peut s’épanouir dans le sport, où la passion guide les ambitions et où le respect prévaut sur la compétition.
-                </p>
-            </div>
-        </section>
-
-        <!-- Partie Contact -->
-        <section id="contact" class="card">
-            <h2>Contact</h2>
-            <form id="contact-form">
-                <label for="email">Ton email :</label>
-                <input type="email" id="email" placeholder="Ton adresse mail" required>
-                <label for="message">Message :</label>
-                <textarea id="message" placeholder="Écris-moi ici !" required></textarea>
-                <button type="submit" class="btn primary">Envoyer</button>
-            </form>
-            <div class="contact-info">
-                <p>
-                  Ou via mail : <a href="mailto:nsntfra78@gmail.com">nsntfra78@gmail.com</a><br><br>
-                  Tu veux échanger, collaborer ou juste discuter sport ? Contacte-moi, je suis toujours ouvert à de nouvelles rencontres et opportunités !
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 François Naissant • Portfolio réalisé par Copilot</p>
-    </footer>
-
-    <!-- Lightbox modal -->
-    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandissement de la photo">
-      <button id="lb-close" class="lightbox-close" aria-label="Fermer">✕</button>
-      <img id="lb-img" class="lightbox-image" src="" alt="">
-      <a id="lb-download" class="lightbox-download" download="portrait-large.jpg" href="">Télécharger</a>
+      </nav>
     </div>
+  </header>
 
-    <script src="script.js" defer></script>
+  <main class="pages container" id="home">
+    <!-- HERO -->
+    <section class="hero card" id="home" aria-labelledby="hero-title">
+      <figure class="hero-left">
+        <img id="profile-photo" class="profile-photo" src="images/profile-800.jpg" alt="Portrait en maillot de handball, bras croisés" width="800" height="1040" loading="lazy">
+        <figcaption class="photo-actions">
+          <button id="toggle-shape" class="btn small">Rond / Carré</button>
+          <button id="open-lightbox" class="btn small outline">Agrandir</button>
+          <a id="download-photo" class="btn small" download="portrait.jpg" href="images/profile-800.jpg">Télécharger</a>
+        </figcaption>
+      </figure>
+
+      <div class="hero-right">
+        <h1 id="hero-title">Bienvenue — François Naissant</h1>
+        <p class="lead">Étudiant en licence commercialisation de produits et services sportifs. Alternant chez Energie Forme Vernouillet. Passion : handball & musique.</p>
+        <div class="hero-ctas">
+          <a href="#presentation" class="btn" data-scroll>En savoir plus</a>
+          <a href="#projets" class="btn ghost" data-scroll>Mes projets</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Presentation -->
+    <section id="presentation" class="card reveal">
+      <h2>Présentation & Parcours</h2>
+      <p>Hello, je m'appelle François Naissant, j'ai 20 ans et j'étudie à l'Ileps (Cergy). En alternance chez Energie Forme Vernouillet, je conjugue théorie et pratique dans le sport.</p>
+      <div class="grid">
+        <article class="card-sm">
+          <h3>Parcours sportif</h3>
+          <p>Handball depuis 10 ans — champion régional U18 en 2023. Le sport m'a appris rigueur, esprit d'équipe et persévérance.</p>
+        </article>
+        <article class="card-sm">
+          <h3>Alternance</h3>
+          <p>Commercial chez Energie Forme Vernouillet : gestion de projet, relation client et communication terrain.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Sport -->
+    <section id="sport" class="card reveal">
+      <h2>Le Sport & Mes valeurs</h2>
+      <p>Le sport est un vecteur d'épanouissement, d'entraide et de dépassement de soi.</p>
+      <ul class="values">
+        <li>Respect</li>
+        <li>Engagement</li>
+        <li>Esprit d'équipe</li>
+        <li>Persévérance</li>
+      </ul>
+    </section>
+
+    <!-- Musique -->
+    <section id="musique" class="card reveal">
+      <h2>Ma passion pour la musique</h2>
+      <p>La musique m'aide à me concentrer, à me motiver et à créer une ambiance positive pour l'équipe.</p>
+    </section>
+
+    <!-- Projets -->
+    <section id="projets" class="card reveal">
+      <h2>Projets & Vision</h2>
+      <div class="grid">
+        <article class="card-sm">
+          <h3>Arbitre professionnel</h3>
+          <p>Objectif : arbitrer au plus haut niveau et transmettre le respect du jeu.</p>
+        </article>
+        <article class="card-sm">
+          <h3>Directeur de structure</h3>
+          <p>Créer des opportunités pour les jeunes et favoriser l'accès au sport.</p>
+        </article>
+        <article class="card-sm">
+          <h3>Transmission</h3>
+          <p>Former et inspirer la prochaine génération.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="card reveal">
+      <h2>Contact</h2>
+      <form id="contact-form" class="contact-form">
+        <label for="email">Ton email</label>
+        <input id="email" type="email" required placeholder="ton@mail.com">
+        <label for="message">Message</label>
+        <textarea id="message" rows="5" required placeholder="Écris-moi !"></textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn">Envoyer</button>
+          <button type="reset" class="btn ghost">Effacer</button>
+        </div>
+      </form>
+      <p class="muted">Ou via mail : <a href="mailto:nsntfra78@gmail.com">nsntfra78@gmail.com</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 François Naissant</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandissement de la photo">
+    <button id="lb-close" class="lightbox-close" aria-label="Fermer">✕</button>
+    <img id="lb-img" class="lightbox-image" src="" alt="">
+    <a id="lb-download" class="lightbox-download" download="portrait-large.jpg" href="">Télécharger</a>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
