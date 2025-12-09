@@ -1,137 +1,217 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfolio — François Naissant</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio François Naissant</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#home">François Naissant</a>
+      <a class="brand" href="#" data-target="home">François Naissant</a>
 
-      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <span class="bar" aria-hidden="true"></span>
+      <button class="nav-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Ouvrir le menu">
+        <span class="hamburger"></span>
       </button>
 
-      <nav class="main-nav" aria-label="Navigation principale">
+      <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
         <ul>
-          <li><a href="#presentation" data-scroll>Présentation</a></li>
-          <li><a href="#sport" data-scroll>Sport</a></li>
-          <li><a href="#musique" data-scroll>Musique</a></li>
-          <li><a href="#projets" data-scroll>Projets</a></li>
-          <li><a href="#contact" data-scroll>Contact</a></li>
+          <li><a href="#" data-target="presentation">Présentation</a></li>
+          <li><a href="#" data-target="sport">Sport & Valeurs</a></li>
+          <li><a href="#" data-target="musique">Musique</a></li>
+          <li><a href="#" data-target="projets">Projets & Vision</a></li>
+          <li><a href="#" data-target="contact">Contact</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="pages container" id="home">
-    <!-- HERO -->
-    <section class="hero card" id="home" aria-labelledby="hero-title">
-      <figure class="hero-left">
-        <img id="profile-photo" class="profile-photo" src="images/profile-800.jpg" alt="Portrait en maillot de handball, bras croisés" width="800" height="1040" loading="lazy">
-        <figcaption class="photo-actions">
-          <button id="toggle-shape" class="btn small">Rond / Carré</button>
-          <button id="open-lightbox" class="btn small outline">Agrandir</button>
-          <a id="download-photo" class="btn small" download="portrait.jpg" href="images/profile-800.jpg">Télécharger</a>
-        </figcaption>
-      </figure>
+  <main id="app" class="pages">
 
-      <div class="hero-right">
-        <h1 id="hero-title">Bienvenue — François Naissant</h1>
-        <p class="lead">Étudiant en licence commercialisation de produits et services sportifs. Alternant chez Energie Forme Vernouillet. Passion : handball & musique.</p>
-        <div class="hero-ctas">
-          <a href="#presentation" class="btn" data-scroll>En savoir plus</a>
-          <a href="#projets" class="btn ghost" data-scroll>Mes projets</a>
+    <!-- HOME / HERO -->
+    <section id="home" class="page active" data-page="home">
+      <div class="container hero">
+        <figure class="profile-figure" aria-hidden="false">
+          <picture>
+            <!-- Remplace ces fichiers par les tiens : images/profile.webp, profile-400.jpg, profile-800.jpg -->
+            <source type="image/webp" srcset="images/profile.webp">
+            <img
+              src="images/profile-800.jpg"
+              srcset="images/profile-400.jpg 400w, images/profile-800.jpg 800w"
+              sizes="(max-width: 700px) 40vw, 200px"
+              alt="Portrait en maillot de handball, bras croisés, souriant"
+              class="profile-photo"
+              loading="lazy"
+              width="200"
+              height="260">
+          </picture>
+        </figure>
+
+        <div class="hero-text">
+          <h1>Bienvenue sur mon portfolio</h1>
+          <p>
+            Étudiant en licence de commercialisation de produits et services sportifs, alternant chez Energie Forme Vernouillet.
+            Passion : handball & musique. Parcours, projets et valeurs — découvre tout ici.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#" class="btn primary" data-target="presentation">En savoir plus</a>
+            <a href="#" class="btn ghost" data-target="projets">Mes projets</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Presentation -->
-    <section id="presentation" class="card reveal">
-      <h2>Présentation & Parcours</h2>
-      <p>Hello, je m'appelle François Naissant, j'ai 20 ans et j'étudie à l'Ileps (Cergy). En alternance chez Energie Forme Vernouillet, je conjugue théorie et pratique dans le sport.</p>
-      <div class="grid">
-        <article class="card-sm">
+    <!-- PRESENTATION (page avec plusieurs sections) -->
+    <section id="presentation" class="page" data-page="presentation">
+      <div class="container page-inner">
+        <button class="back-home" data-target="home">← Retour</button>
+        <h2>Présentation & Parcours</h2>
+
+        <article class="card">
+          <h3>À propos de moi</h3>
+          <p>
+            Hello, je m'appelle François Naissant, j'ai 20 ans et j'étudie à l'Ileps (Cergy). En alternance chez Energie Forme Vernouillet comme commercial,
+            je conjugue pratique et théorie pour mieux comprendre le monde du sport.
+          </p>
+        </article>
+
+        <article class="card">
           <h3>Parcours sportif</h3>
-          <p>Handball depuis 10 ans — champion régional U18 en 2023. Le sport m'a appris rigueur, esprit d'équipe et persévérance.</p>
+          <p>
+            Handball depuis l'âge de 10 ans. En 2023, champion régional U18 — une expérience collective forte qui m'a appris leadership et résilience.
+          </p>
         </article>
-        <article class="card-sm">
-          <h3>Alternance</h3>
-          <p>Commercial chez Energie Forme Vernouillet : gestion de projet, relation client et communication terrain.</p>
+
+        <article class="card">
+          <h3>Anecdote</h3>
+          <p>
+            Une blessure en début de saison, une reprise difficile, puis la persévérance et la confiance ont fait que j'ai retrouvé ma place dans l'équipe.
+          </p>
         </article>
       </div>
     </section>
 
-    <!-- Sport -->
-    <section id="sport" class="card reveal">
-      <h2>Le Sport & Mes valeurs</h2>
-      <p>Le sport est un vecteur d'épanouissement, d'entraide et de dépassement de soi.</p>
-      <ul class="values">
-        <li>Respect</li>
-        <li>Engagement</li>
-        <li>Esprit d'équipe</li>
-        <li>Persévérance</li>
-      </ul>
-    </section>
+    <!-- SPORT & VALEURS -->
+    <section id="sport" class="page" data-page="sport">
+      <div class="container page-inner">
+        <button class="back-home" data-target="home">← Retour</button>
+        <h2>Le Sport & Mes Valeurs</h2>
 
-    <!-- Musique -->
-    <section id="musique" class="card reveal">
-      <h2>Ma passion pour la musique</h2>
-      <p>La musique m'aide à me concentrer, à me motiver et à créer une ambiance positive pour l'équipe.</p>
-    </section>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Pourquoi le sport ?</h3>
+            <p>
+              Le sport est un vecteur d'épanouissement, de respect et d'intégration. Il m'a appris la rigueur, le travail d'équipe et la persévérance.
+            </p>
+          </article>
 
-    <!-- Projets -->
-    <section id="projets" class="card reveal">
-      <h2>Projets & Vision</h2>
-      <div class="grid">
-        <article class="card-sm">
-          <h3>Arbitre professionnel</h3>
-          <p>Objectif : arbitrer au plus haut niveau et transmettre le respect du jeu.</p>
-        </article>
-        <article class="card-sm">
-          <h3>Directeur de structure</h3>
-          <p>Créer des opportunités pour les jeunes et favoriser l'accès au sport.</p>
-        </article>
-        <article class="card-sm">
-          <h3>Transmission</h3>
-          <p>Former et inspirer la prochaine génération.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="card reveal">
-      <h2>Contact</h2>
-      <form id="contact-form" class="contact-form">
-        <label for="email">Ton email</label>
-        <input id="email" type="email" required placeholder="ton@mail.com">
-        <label for="message">Message</label>
-        <textarea id="message" rows="5" required placeholder="Écris-moi !"></textarea>
-        <div class="form-actions">
-          <button type="submit" class="btn">Envoyer</button>
-          <button type="reset" class="btn ghost">Effacer</button>
+          <article class="card">
+            <h3>Mes valeurs</h3>
+            <ul>
+              <li>Respect</li>
+              <li>Engagement</li>
+              <li>Tolérance</li>
+              <li>Esprit d'équipe</li>
+              <li>Persévérance</li>
+            </ul>
+          </article>
         </div>
-      </form>
-      <p class="muted">Ou via mail : <a href="mailto:nsntfra78@gmail.com">nsntfra78@gmail.com</a></p>
+
+        <article class="card">
+          <h3>Compétences acquises</h3>
+          <p>Rigueur, communication, gestion d'équipe et adaptation — mises en pratique en alternance et sur le terrain.</p>
+        </article>
+      </div>
     </section>
+
+    <!-- MUSIQUE -->
+    <section id="musique" class="page" data-page="musique">
+      <div class="container page-inner">
+        <button class="back-home" data-target="home">← Retour</button>
+        <h2>Ma passion pour la musique</h2>
+
+        <article class="card">
+          <h3>Un refuge et un moteur</h3>
+          <p>
+            La musique m'aide à me concentrer, à me motiver avant les matches, et à créer une ambiance positive en tant que coach.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Comment j'utilise la musique</h3>
+          <ul>
+            <li>Concentration avant les matchs</li>
+            <li>Cohésion d'équipe (entraînements)</li>
+            <li>Récupération et gestion du stress</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJETS & VISION (page avec 3 sections) -->
+    <section id="projets" class="page" data-page="projets">
+      <div class="container page-inner">
+        <button class="back-home" data-target="home">← Retour</button>
+        <h2>Projets & Vision</h2>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Arbitre professionnel</h3>
+            <p>Objectif : arbitrer au plus haut niveau pour garantir justice et respect du jeu.</p>
+          </article>
+
+          <article class="card">
+            <h3>Directeur de structure sportive</h3>
+            <p>Diriger une équipe vers l'excellence, donner des opportunités aux jeunes et favoriser l'accès au sport.</p>
+          </article>
+
+          <article class="card">
+            <h3>Transmission</h3>
+            <p>Former, coacher et inspirer la prochaine génération — transmettre l'amour du handball et ses valeurs.</p>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="page" data-page="contact">
+      <div class="container page-inner">
+        <button class="back-home" data-target="home">← Retour</button>
+        <h2>Contact</h2>
+
+        <form class="card form-card" id="contact-form">
+          <label for="email">Ton email :</label>
+          <input type="email" id="email" placeholder="Ton adresse mail" required>
+
+          <label for="message">Message :</label>
+          <textarea id="message" placeholder="Écris-moi ici !" rows="6" required></textarea>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary">Envoyer</button>
+            <button type="button" class="btn ghost" data-target="home">Annuler</button>
+          </div>
+        </form>
+
+        <div class="card contact-info">
+          <p>
+            Ou via mail : <a href="mailto:nsntfra78@gmail.com">nsntfra78@gmail.com</a><br><br>
+            Tu veux échanger, collaborer ou juste discuter sport et musique ? Contacte-moi !
+          </p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2025 François Naissant</p>
+      <p>&copy; 2025 François Naissant • Portfolio réalisé par Copilot</p>
     </div>
   </footer>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandissement de la photo">
-    <button id="lb-close" class="lightbox-close" aria-label="Fermer">✕</button>
-    <img id="lb-img" class="lightbox-image" src="" alt="">
-    <a id="lb-download" class="lightbox-download" download="portrait-large.jpg" href="">Télécharger</a>
-  </div>
-
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
