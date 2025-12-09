@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photo — test</title>
+  <link rel="stylesheet" href="image-style.css">
+</head>
+<body>
+
+  <!-- Colle ce bloc où tu veux afficher la photo -->
+  <section class="profile-section">
+    <figure class="profile-figure" aria-labelledby="profile-title">
+      <!-- Utilise directement <img> simple pour éviter les problèmes de fallback -->
+      <img
+        id="profile-img"
+        src="images/profile-800.jpg"
+        alt="Portrait en maillot de handball, bras croisés, souriant"
+        class="profile-photo"
+        loading="lazy"
+        width="800" height="1040">
+      <figcaption class="profile-meta">
+        <h3 id="profile-title">Photo de profil</h3>
+        <p class="muted">Clique sur l'image pour agrandir.</p>
+        <div class="profile-controls">
+          <button type="button" id="toggle-shape" class="btn">Rond / Carré</button>
+          <button type="button" id="open-lightbox" class="btn">Agrandir</button>
+        </div>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Agrandissement de la photo">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">✕</button>
+    <img id="lightbox-img" src="" alt="Portrait agrandi" />
+  </div>
+
+  <script defer src="image-script.js"></script>
+</body>
+</html>
